@@ -2,7 +2,7 @@
 
 + ### Create Device API
 
-  * #### POST : http://203.194.112.194/api/device/create
+  * #### POST : http://203.194.112.194:3000/api/device/create
 
     - Request body create device
         ```
@@ -28,7 +28,7 @@
 
 + ### Get Device API
 
-  * #### GET : http://203.194.112.194/api/device/get/:deviceId
+  * #### GET : http://203.194.112.194:3000/api/device/get/:deviceId
 
     - Request params get device
       ```
@@ -50,7 +50,7 @@
 
 + ### Update Device API
 
-  * #### PATCH : http://203.194.112.194/api/device/update/:deviceId
+  * #### PATCH : http://203.194.112.194:3000/api/device/update/:deviceId
 
     - Request Params update device
       ```
@@ -80,7 +80,7 @@
 
 + ### Remove Device API
 
-  * #### DELETE : http://203.194.112.194/api/device/remove/:deviceId
+  * #### DELETE : http://203.194.112.194:3000/api/device/remove/:deviceId
 
     - Request Params remove device
       ```
