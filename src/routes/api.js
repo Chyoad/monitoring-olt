@@ -9,6 +9,7 @@ apiRouter.post('/api/device/create', deviceController.create);
 apiRouter.get('/api/device/get/:deviceId', deviceController.get);
 apiRouter.patch('/api/device/update/:deviceId', deviceController.update);
 apiRouter.delete('/api/device/remove/:deviceId', deviceController.remove);
+apiRouter.get('/api/device/count', deviceController.count);
 
 
 /* SENSOR ROUTE */

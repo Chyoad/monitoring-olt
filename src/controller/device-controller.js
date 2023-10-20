@@ -46,9 +46,21 @@ const remove = async (req, res, next) => {
   }
 }
 
+const count = async (req, res, next) => {
+  try {
+    const result = await deviceService.count();
+    res.status(200).json({
+      data: result
+    });
+  } catch (e) {
+    next(e);
+  }
+}
+
 export default {
   create,
   get,
   update,
-  remove
+  remove,
+  count
 }

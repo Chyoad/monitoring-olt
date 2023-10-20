@@ -112,9 +112,20 @@ const remove = async (req) => {
   });
 }
 
+const count = async (req) => {
+  const device = await prismaClient.device.count();
+
+  if (!device) {
+    throw new ResponseError(404, "Device not found");
+  }
+
+  return device;
+}
+
 export default {
   create,
   get,
   update,
-  remove
+  remove,
+  count
 }
