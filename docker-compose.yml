@@ -22,7 +22,7 @@ services:
     depends_on:
       - mysql
     environment:
-      DATABASE_URL: mysql://oltuser:oltpass@mysql:3306/monitooring_olt
+      DATABASE_URL: mysql://oltuser:oltpass@mysql:3306/monitoring_olt
     networks:
       - app-network
 

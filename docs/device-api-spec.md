@@ -93,3 +93,15 @@
         "data": "OK"
       }
       ```
+
++ ### Count Device API
+
+  * #### GET : http://203.194.112.194:3000/api/device/count
+
+    - Response body count device
+      ```
+      {
+        "data": 1
+      }
+      ```
+
