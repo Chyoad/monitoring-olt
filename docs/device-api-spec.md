@@ -1,11 +1,10 @@
-# **API SPECIFICATION**
+# **DEVICE API SPECIFICATION**
 
 + ### Create Device API
 
-  * #### POST : http://. . ./api/device/create
+  * #### POST : http://203.194.112.194/api/device/create
 
     - Request body create device
-
         ```
         {
           "name": "device_1",
@@ -15,7 +14,6 @@
         ```
 
     - Response body create device
-
       ```
       {
         "data": {
@@ -30,16 +28,14 @@
 
 + ### Get Device API
 
-  * #### GET : http://. . ./api/device/get/:deviceId
+  * #### GET : http://203.194.112.194/api/device/get/:deviceId
 
     - Request params get device
-     
       ```
       :deviceId
       ```
 
     - Response body get device
-
       ```
       {
         "data": {
@@ -54,13 +50,13 @@
 
 + ### Update Device API
 
-  * #### PATCH : http://. . ./api/device/update/:deviceId
+  * #### PATCH : http://203.194.112.194/api/device/update/:deviceId
 
     - Request Params update device
-
       ```
       :deviceId
       ```
+
     - Request body update device
       ```
       {
@@ -84,12 +80,13 @@
 
 + ### Remove Device API
 
-  * #### DELETE : http://. . ./api/device/remove/:deviceId
+  * #### DELETE : http://203.194.112.194/api/device/remove/:deviceId
 
     - Request Params remove device
       ```
       :deviceId
       ```
+      
     - Response body remove device
       ```
       {
