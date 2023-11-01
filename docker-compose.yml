@@ -1,6 +1,7 @@
 version: '3.8'
 services:
   mysql:
+    restart: always
     image: mysql:latest
     ports:
       - "3306:3306"

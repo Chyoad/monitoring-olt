@@ -73,10 +73,7 @@ describe('GET /api/device/get', function () {
   it('should can get the device', async () => {
     const device = createTestDevice();
     const result = await supertest(web)
-      .get('api/device/get/:deviceId')
-      .send({
-        deviceId: device.deviceId,
-      })
+      .get(`api/device/get/${device.deviceId}`)
 
     logger.info(result.body);
 
