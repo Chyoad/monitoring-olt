@@ -32,13 +32,15 @@ const create = async (req) => {
       deviceId: deviceId,
       name: device.name,
       location: device.location,
-      coordinate: device.coordinate
+      latitude: device.latitude,
+      longitude: device.longitude
     },
     select: {
       deviceId: true,
       name: true,
       location: true,
-      coordinate: true,
+      latitude: true,
+      longitude: true,
       createdAt: true,
       updatedAt: true
     }
@@ -56,7 +58,8 @@ const get = async (req) => {
       deviceId: true,
       name: true,
       location: true,
-      coordinate: true,
+      latitude: true,
+      longitude: true,
       createdAt: true,
       updatedAt: true
     }
@@ -86,7 +89,8 @@ const update = async (req1, req2) => {
   const data = {
     name: device.name,
     location: device.location,
-    coordinate: device.coordinate
+    latitude: device.latitude,
+    longitude: device.longitude
   }
 
   return prismaClient.device.update({
@@ -98,7 +102,8 @@ const update = async (req1, req2) => {
       deviceId: true,
       name: true,
       location: true,
-      coordinate: true,
+      latitude: true,
+      longitude: true,
       createdAt: true,
       updatedAt: true
     }
@@ -135,21 +140,10 @@ const all = async (req) => {
   return device;
 }
 
-const count = async (req) => {
-  const device = await prismaClient.device.count();
-
-  if (!device) {
-    throw new ResponseError(404, "Device not found");
-  }
-
-  return device;
-}
-
 export default {
   create,
   get,
   update,
   remove,
-  count,
   all
 }
