@@ -17,18 +17,28 @@ const create = async (req) => {
   });
 
   if (countDevice === 1) {
-    throw new ResponseError(400, "Device already exists");
+    throw new ResponseError(400, "Device already exists, create different device name");
   }
+
+  let deviceId = '';
+  for (let i = 0; i < 2; i++) {
+    const randomChunk = Math.random().toString(16).substr(2, 6).toUpperCase();
+    deviceId += randomChunk + '-';
+  }
+  deviceId += Math.random().toString(16).substr(2, 6).toUpperCase();
 
   return prismaClient.device.create({
     data: {
+      deviceId: deviceId,
       name: device.name,
-      location: device.location
+      location: device.location,
+      coordinate: device.coordinate
     },
     select: {
       deviceId: true,
       name: true,
       location: true,
+      coordinate: true,
       createdAt: true,
       updatedAt: true
     }
@@ -46,6 +56,7 @@ const get = async (req) => {
       deviceId: true,
       name: true,
       location: true,
+      coordinate: true,
       createdAt: true,
       updatedAt: true
     }
@@ -74,7 +85,8 @@ const update = async (req1, req2) => {
 
   const data = {
     name: device.name,
-    location: device.location
+    location: device.location,
+    coordinate: device.coordinate
   }
 
   return prismaClient.device.update({
@@ -86,6 +98,7 @@ const update = async (req1, req2) => {
       deviceId: true,
       name: true,
       location: true,
+      coordinate: true,
       createdAt: true,
       updatedAt: true
     }
@@ -112,6 +125,16 @@ const remove = async (req) => {
   });
 }
 
+const all = async (req) => {
+  const device = await prismaClient.device.findMany();
+
+  if (!device) {
+    throw new ResponseError(404, "Device not found");
+  }
+
+  return device;
+}
+
 const count = async (req) => {
   const device = await prismaClient.device.count();
 
@@ -127,5 +150,6 @@ export default {
   get,
   update,
   remove,
-  count
+  count,
+  all
 }

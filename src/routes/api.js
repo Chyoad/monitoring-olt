@@ -1,6 +1,7 @@
 import express from "express";
 import deviceController from "../controller/device-controller.js";
 import sensorController from "../controller/sensor-controller.js";
+import { petugasMiddleware, adminMiddleware } from "../middleware/auth-middleware.js";
 
 const apiRouter = new express.Router();
 
@@ -10,6 +11,7 @@ apiRouter.get('/api/device/get/:deviceId', deviceController.get);
 apiRouter.patch('/api/device/update/:deviceId', deviceController.update);
 apiRouter.delete('/api/device/remove/:deviceId', deviceController.remove);
 apiRouter.get('/api/device/count', deviceController.count);
+apiRouter.get('/api/device/all', deviceController.all);
 
 
 /* SENSOR ROUTE */

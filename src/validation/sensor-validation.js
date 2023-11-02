@@ -8,15 +8,6 @@ const createSensorValidation = Joi.object({
   suhu: Joi.number().required()
 });
 
-// const getDeviceValidation = Joi.object({
-//   deviceId: Joi.string().max(255).required()
-// });
-
-// const updateDeviceValidation = Joi.object({
-//   name: Joi.string().max(255).required(),
-//   location: Joi.string().max(255).required()
-// })
-
 
 export {
   createSensorValidation,

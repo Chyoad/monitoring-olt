@@ -10,10 +10,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  userId        String      @id @default(uuid())
+  username      String      @unique @db.VarChar(255)
+  password      String      @db.VarChar(255)
+  role          Role        @default(PETUGAS)
+  token         String?     @db.VarChar(255)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@map("users")
+}
+
 model Device {
-  deviceId      Int         @id @unique @default(autoincrement())
-  name          String      @unique @db.VarChar(255)
+  deviceId      String      @id @db.VarChar(255)
+  name          String      @db.VarChar(255)
   location      String      @db.VarChar(255)
+  coordinate    String      @db.VarChar(255)
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
   sensor        Sensor[]
@@ -22,9 +35,9 @@ model Device {
 }
 
 model Sensor {
-  id            Int         @id @unique @default(autoincrement())
+  sensorId      String      @id @default(uuid())
   idDevice      Device      @relation(fields: [deviceId], references: [deviceId])
-  deviceId      Int           
+  deviceId      String           
   tegangan      Float
   arus          Float
   daya          Float
@@ -34,4 +47,9 @@ model Sensor {
   updatedAt     DateTime    @updatedAt
 
   @@map("sensors")
+}
+
+enum Role {
+  PETUGAS
+  ADMIN
 }

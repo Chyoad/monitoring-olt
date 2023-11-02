@@ -46,6 +46,17 @@ const remove = async (req, res, next) => {
   }
 }
 
+const all = async (req, res, next) => {
+  try {
+    const result = await deviceService.all();
+    res.status(200).json({
+      data: result
+    });
+  } catch (e) {
+    next(e);
+  }
+}
+
 const count = async (req, res, next) => {
   try {
     const result = await deviceService.count();
@@ -62,5 +73,6 @@ export default {
   get,
   update,
   remove,
+  all,
   count
 }
