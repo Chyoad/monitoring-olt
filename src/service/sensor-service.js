@@ -64,7 +64,7 @@ const get = async (req) => {
     },
     take: 5,
     orderBy: {
-      id: 'desc'
+      createdAt: 'desc'
     }
   });
 }
