@@ -32,7 +32,7 @@ const create = async (req1, req2) => {
       suhu: sensor.suhu,
     },
     select: {
-      id: true,
+      sensorId: true,
       deviceId: true,
       tegangan: true,
       arus: true,

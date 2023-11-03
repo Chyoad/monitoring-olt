@@ -5,6 +5,12 @@ const loginUserValidation = Joi.object({
   password: Joi.string().min(8).max(255).required()
 });
 
+const getUserValidation = Joi.object({
+  userId: Joi.string().required()
+});
+
+
 export {
   loginUserValidation,
+  getUserValidation
 }

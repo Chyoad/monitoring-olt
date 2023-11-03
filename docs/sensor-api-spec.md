@@ -24,7 +24,7 @@
       ```
       {
           "data": {
-              "id": 27,
+              "sensorId": 27,
               "deviceId": 1,
               "tegangan": 5.2,
               "arus": 5.2,
@@ -51,7 +51,7 @@
       {
           "data": [
               {
-                  "id": 27,
+                  "sensorId": 27,
                   "deviceId": 1,
                   "tegangan": 5.2,
                   "arus": 5.2,
@@ -62,7 +62,7 @@
                   "updatedAt": "2023-10-19T16:21:42.859Z"
               },
               {
-                  "id": 22,
+                  "sensorId": 22,
                   "deviceId": 1,
                   "tegangan": 5.2,
                   "arus": 5.2,
@@ -73,7 +73,7 @@
                   "updatedAt": "2023-10-19T16:15:16.225Z"
               },
               {
-                  "id": 21,
+                  "sensorId": 21,
                   "deviceId": 1,
                   "tegangan": 5.2,
                   "arus": 5.2,
@@ -84,7 +84,7 @@
                   "updatedAt": "2023-10-19T16:15:15.458Z"
               },
               {
-                  "id": 20,
+                  "sensorId": 20,
                   "deviceId": 1,
                   "tegangan": 5.2,
                   "arus": 5.2,
@@ -95,7 +95,7 @@
                   "updatedAt": "2023-10-19T16:15:14.540Z"
               },
               {
-                  "id": 10,
+                  "sensorId": 10,
                   "deviceId": 1,
                   "tegangan": 5.5,
                   "arus": 5.5,

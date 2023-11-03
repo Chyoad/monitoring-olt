@@ -8,7 +8,9 @@
         ```
         {
           "name": "device_1",
-          "location": "location_1"
+          "location": "location_1",
+          "latitude": "297070298",
+          "longitude": "-129736781" 
         }
 
         ```
@@ -20,6 +22,8 @@
           "deviceId": "1",
           "name": "device_1",
           "location": "location_1",
+          "latitude": "297070298",
+          "longitude": "-129736781",
           "createdAt": "2023-10-19T08:29:01.682Z",
           "updatedAt": "2023-10-19T08:29:01.682Z"
         }
@@ -42,6 +46,8 @@
           "deviceId": "1",
           "name": "device_1",
           "location": "location_1",
+          "latitude": "297070298",
+          "longitude": "-129736781",
           "createdAt": "2023-10-19T08:29:01.682Z",
           "updatedAt": "2023-10-19T08:29:01.682Z"
         }
@@ -61,7 +67,9 @@
       ```
       {
           "name": "device_2",
-          "location": "location_2"
+          "location": "location_2",
+          "latitude": "297070298",
+          "longitude": "-129736781"
       }
       ```
 
@@ -72,6 +80,8 @@
           "deviceId": "1",
           "name": "device_2",
           "location": "location_2",
+          "latitude": "297070298",
+          "longitude": "-129736781",
           "createdAt": "2023-10-19T08:29:01.682Z",
           "updatedAt": "2023-10-19T08:29:01.682Z"
         }
