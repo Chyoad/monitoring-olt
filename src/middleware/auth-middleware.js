@@ -1,20 +1,31 @@
 import jwt from "jsonwebtoken";
+import { prismaClient } from "../app/database.js";
 
 export const adminMiddleware = async (req, res, next) => {
   try {
     const token = req.query.apiKey;
 
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    if (decoded.role === "ADMIN") {
-      req.user = decoded;
-      next();
+    const user = await prismaClient.user.findFirst({
+      where: {
+        token: token
+      }
+    });
+
+    if (!user) {
+      res.status(401).json({ errors: "Unauthorized" }).end();
     } else {
-      res.status(401).json({ error: "Invalid role" });
+      const decoded = jwt.verify(token, process.env.SECRET_KEY);
+      if (decoded.role === "ADMIN") {
+        req.user = decoded;
+        next();
+      } else {
+        res.status(401).json({ error: "Invalid role" });
+      }
     }
 
   } catch (err) {
     res.status(401).json({
-      error: "Unauthorized",
+      errors: "Unauthorized",
       message: err.message
     });
   }
@@ -24,17 +35,27 @@ export const petugasMiddleware = async (req, res, next) => {
   try {
     const token = req.query.apiKey;
 
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    if (decoded.role === "PETUGAS" || decoded.role === "ADMIN") {
-      req.user = decoded;
-      next();
+    const user = await prismaClient.user.findFirst({
+      where: {
+        token: token
+      }
+    });
+
+    if (!user) {
+      res.status(401).json({ errors: "Unauthorized" }).end();
     } else {
-      res.status(401).json({ error: "Invalid role" });
+      const decoded = jwt.verify(token, process.env.SECRET_KEY);
+      if (decoded.role === "PETUGAS" || decoded.role === "ADMIN") {
+        req.user = decoded;
+        next();
+      } else {
+        res.status(401).json({ error: "Invalid role" });
+      }
     }
 
   } catch (err) {
     res.status(401).json({
-      error: "Unauthorized",
+      errors: "Unauthorized",
       message: err.message
     });
   }

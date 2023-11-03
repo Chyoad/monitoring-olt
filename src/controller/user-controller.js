@@ -22,7 +22,19 @@ const get = async (req, res, next) => {
   }
 }
 
+const logout = async (req, res, next) => {
+  try {
+    await userService.logout(req.params);
+    res.status(200).json({
+      data: "OK"
+    })
+  } catch (e) {
+    next(e);
+  }
+}
+
 export default {
   login,
-  get
+  get,
+  logout
 }

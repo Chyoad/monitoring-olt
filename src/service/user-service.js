@@ -76,7 +76,29 @@ const get = async (req) => {
   return user;
 }
 
+
+const logout = async (req) => {
+  const userRequest = validate(getUserValidation, req);
+
+  const user = await prismaClient.user.count({
+    where: {
+      userId: userRequest.userId
+    }
+  });
+
+  if (!user) {
+    throw new ResponseError(404, "User not found");
+  }
+
+  return prismaClient.user.delete({
+    where: {
+      userId: userRequest.userId
+    }
+  })
+}
+
 export default {
   login,
-  get
+  get,
+  logout
 }

@@ -20,7 +20,8 @@ apiRouter.get('/api/sensor/get/:deviceId', sensorController.get);
 
 
 /* USER ROUTE */
-apiRouter.get('/api/user/get/:userId', petugasMiddleware, userController.get);
+apiRouter.get('/api/user/get/:userId', userController.get, petugasMiddleware,);
+apiRouter.delete('/api/user/logout/:userId', userController.logout, petugasMiddleware);
 
 
 export {

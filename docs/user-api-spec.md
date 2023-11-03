@@ -48,3 +48,21 @@
         "updatedAt": "2023-11-03T02:56:14.114Z"
     }
       ```
+
++ ### Logout User API
+
+  * #### DELETE : http://203.194.112.194:3000/api/user/logout/:userId
+
+    - Request params logout user
+      ```
+      {
+        :userId
+      }
+      ```
+
+    - Response body logout user
+      ```
+      {
+        "data": "OK"
+      }
+      ```
