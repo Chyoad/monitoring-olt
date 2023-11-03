@@ -25,7 +25,7 @@ export const petugasMiddleware = async (req, res, next) => {
     const token = req.query.apiKey;
 
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    if (decoded.role === "PETUGAS") {
+    if (decoded.role === "PETUGAS" || decoded.role === "ADMIN") {
       req.user = decoded;
       next();
     } else {
