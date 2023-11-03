@@ -123,7 +123,13 @@ const remove = async (req) => {
     throw new ResponseError(404, "Device not found");
   }
 
-  return prismaClient.device.delete({
+  await prismaClient.sensor.deleteMany({
+    where: {
+      deviceId: device.deviceId
+    }
+  });
+
+  return await prismaClient.device.delete({
     where: {
       deviceId: device.deviceId
     }
