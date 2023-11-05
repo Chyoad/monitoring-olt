@@ -7,21 +7,22 @@ import { petugasMiddleware, adminMiddleware } from "../middleware/auth-middlewar
 const apiRouter = new express.Router();
 
 /* DEVICE ROUTE */
-apiRouter.post('/api/device/create', deviceController.create);
-apiRouter.get('/api/device/get/:deviceId', deviceController.get);
-apiRouter.patch('/api/device/update/:deviceId', deviceController.update);
-apiRouter.delete('/api/device/remove/:deviceId', deviceController.remove);
-apiRouter.get('/api/device/all', deviceController.all);
+apiRouter.post('/api/device/create', adminMiddleware, deviceController.create);
+apiRouter.get('/api/device/get/:deviceId', petugasMiddleware, deviceController.get);
+apiRouter.patch('/api/device/update/:deviceId', adminMiddleware, deviceController.update);
+apiRouter.delete('/api/device/remove/:deviceId', adminMiddleware, deviceController.remove);
+apiRouter.get('/api/device/all', petugasMiddleware, deviceController.all);
 
 
 /* SENSOR ROUTE */
-apiRouter.post('/api/sensor/create/:deviceId', sensorController.create);
-apiRouter.get('/api/sensor/get/:deviceId', sensorController.get);
+apiRouter.post('/api/sensor/create/:deviceId', adminMiddleware, sensorController.create);
+apiRouter.get('/api/sensor/get/:deviceId', petugasMiddleware, sensorController.get);
 
 
 /* USER ROUTE */
-apiRouter.get('/api/user/get/:userId', userController.get, petugasMiddleware,);
-apiRouter.delete('/api/user/logout/:userId', userController.logout, petugasMiddleware);
+apiRouter.get('/api/user/get/:userId', petugasMiddleware, userController.get);
+apiRouter.patch('/api/user/update/:userId', petugasMiddleware, userController.update);
+apiRouter.delete('/api/user/logout/:userId', petugasMiddleware, userController.logout);
 
 
 export {

@@ -2,7 +2,7 @@
 
 + ### Login User API
 
-  * #### POST : http://203.194.112.194:3000/api/user/login
+  * #### POST : http://chyoad.cloud/api/user/login
 
     - Request body login user
         ```
@@ -29,7 +29,7 @@
 
 + ### Get User API
 
-  * #### GET : http://203.194.112.194:3000/api/user/get/:userId
+  * #### GET : http://chyoad.cloud/api/user/get/:userId
 
     - Request params get user
       ```
@@ -49,9 +49,43 @@
     }
       ```
 
+
++ ### Update User API
+
+  * #### PATCH : http://chyoad.cloud/api/user/update/:userId
+
+    - Request params update user
+      ```
+      {
+        :userId
+      }
+      ```
+
+    - Request body update user
+        ```
+        {
+          "username": "admin1",
+          "password": "12345678",
+        }
+
+        ```
+
+    - Response body update user
+      ```
+      {
+        "data": {
+          "userId": "45e9b888-9793-4098-80b0-9cf071645d99",
+          "username": "admin1",
+          "createdAt": "2023-11-02T04:36:19.370Z",
+          "updatedAt": "2023-11-03T02:56:14.114Z"
+        }
+      }
+      ```
+
+
 + ### Logout User API
 
-  * #### DELETE : http://203.194.112.194:3000/api/user/logout/:userId
+  * #### DELETE : http://chyoad.cloud/api/user/logout/:userId
 
     - Request params logout user
       ```

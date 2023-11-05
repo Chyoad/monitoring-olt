@@ -1,7 +1,8 @@
 import { validate } from "../validation/validation.js";
 import {
   getUserValidation,
-  loginUserValidation
+  loginUserValidation,
+  updateUserValidation
 } from "../validation/user-validation.js";
 import { prismaClient } from "../app/database.js";
 import { ResponseError } from "../error/response-error.js";
@@ -76,6 +77,42 @@ const get = async (req) => {
   return user;
 }
 
+const update = async (id, data) => {
+  const idReq = validate(getUserValidation, id);
+  const dataReq = validate(updateUserValidation, data);
+
+  const user = await prismaClient.user.findUnique({
+    where: {
+      userId: idReq.userId
+    },
+    select: {
+      userId: true,
+      username: true,
+    }
+  });
+
+  if (!user) {
+    throw new ResponseError(404, "User not found");
+  }
+
+  const password = await bcrypt.hash(dataReq.password, 10);
+
+  return prismaClient.user.update({
+    where: {
+      userId: user.userId
+    },
+    data: {
+      username: dataReq.username,
+      password: password
+    },
+    select: {
+      userId: true,
+      username: true,
+      createdAt: true,
+      updatedAt: true
+    },
+  });
+}
 
 const logout = async (req) => {
   const userRequest = validate(getUserValidation, req);
@@ -90,9 +127,16 @@ const logout = async (req) => {
     throw new ResponseError(404, "User not found");
   }
 
-  return prismaClient.user.delete({
+  return prismaClient.user.update({
     where: {
       userId: userRequest.userId
+    },
+    data: {
+      token: null
+    },
+    select: {
+      userId: true,
+      token: true
     }
   })
 }
@@ -100,5 +144,6 @@ const logout = async (req) => {
 export default {
   login,
   get,
+  update,
   logout
 }

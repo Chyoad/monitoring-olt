@@ -22,11 +22,24 @@ const get = async (req, res, next) => {
   }
 }
 
+const update = async (req, res, next) => {
+  try {
+    const data = req.body;
+    const id = req.params;
+    const result = await userService.update(id, data);
+    res.status(200).json({
+      data: result
+    })
+  } catch (e) {
+    next(e);
+  }
+}
+
 const logout = async (req, res, next) => {
   try {
-    await userService.logout(req.params);
+    const result = await userService.logout(req.params);
     res.status(200).json({
-      data: "OK"
+      data: result
     })
   } catch (e) {
     next(e);
@@ -36,5 +49,6 @@ const logout = async (req, res, next) => {
 export default {
   login,
   get,
-  logout
+  update,
+  logout,
 }
