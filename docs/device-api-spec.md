@@ -2,7 +2,7 @@
 
 + ### Create Device API
 
-  * #### POST : http://203.194.112.194:3000/api/device/create
+  * #### POST : https://chyoad.cloud/api/device/create?apiKey=
 
     - Request body create device
         ```
@@ -32,7 +32,7 @@
 
 + ### Get Device API
 
-  * #### GET : http://203.194.112.194:3000/api/device/get/:deviceId
+  * #### GET : https://chyoad.cloud/api/device/get/:deviceId?apiKey=
 
     - Request params get device
       ```
@@ -54,9 +54,47 @@
       }
       ```
 
++ ### Get All Device API
+
+  * #### GET : https://chyoad.cloud/api/device/all?apiKey=
+
+    - Request params get device
+      ```
+      :deviceId
+      ```
+
+    - Response body get device
+      ```
+      {
+        "data": [
+          {
+            "deviceId": "DC08B8-E2C132-527E84",
+            "name": "device_1",
+            "location": "location_1",
+            "latitude": "-7.823833586627168",
+            "longitude": "110.3644550417918",
+            "apiKey": "",
+            "createdAt": "2023-11-02T07:12:31.517Z",
+            "updatedAt": "2023-11-02T07:12:31.517Z"
+          },
+          {
+            "deviceId": "F260AA-FFA6F8-D048F7",
+            "name": "device_2",
+            "location": "location_2",
+            "latitude": "-7.823833586627168",
+            "longitude": "110.3644550417918",
+            "apiKey": "5XL5T8-CV5Xdr-0g6qqx-30j4VF",
+            "createdAt": "2023-11-06T08:47:45.379Z",
+            "updatedAt": "2023-11-06T08:47:45.379Z"
+          }
+        ]
+      }
+      ```
+
+
 + ### Update Device API
 
-  * #### PATCH : http://203.194.112.194:3000/api/device/update/:deviceId
+  * #### PATCH : https://chyoad.cloud/api/device/update/:deviceId?apiKey=
 
     - Request Params update device
       ```
@@ -90,7 +128,7 @@
 
 + ### Remove Device API
 
-  * #### DELETE : http://203.194.112.194:3000/api/device/remove/:deviceId
+  * #### DELETE : https://chyoad.cloud/api/device/remove/:deviceId?apiKey=
 
     - Request Params remove device
       ```

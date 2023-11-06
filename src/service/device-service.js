@@ -27,13 +27,25 @@ const create = async (req) => {
   }
   deviceId += Math.random().toString(16).substr(2, 6).toUpperCase();
 
+  let apiKey = '';
+  for (let i = 0; i < 4; i++) { // Menghasilkan 4 bagian masing-masing dengan 6 karakter
+    const randomChunk = Math.random().toString(36).substr(2, 6); // Gunakan base-36 (huruf dan angka)
+    const mixedCaseChunk = randomChunk.split('').map(char => (Math.random() < 0.5 ? char.toUpperCase() : char.toLowerCase())).join('');
+    apiKey += mixedCaseChunk;
+    if (i < 3) {
+      apiKey += '-';
+    }
+  }
+
+
   return prismaClient.device.create({
     data: {
       deviceId: deviceId,
       name: device.name,
       location: device.location,
       latitude: device.latitude,
-      longitude: device.longitude
+      longitude: device.longitude,
+      apiKey: apiKey
     },
     select: {
       deviceId: true,
@@ -41,6 +53,7 @@ const create = async (req) => {
       location: true,
       latitude: true,
       longitude: true,
+      apiKey: true,
       createdAt: true,
       updatedAt: true
     }

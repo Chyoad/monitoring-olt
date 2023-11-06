@@ -29,7 +29,7 @@
 
 + ### Get User API
 
-  * #### GET : http://chyoad.cloud/api/user/get/:userId
+  * #### GET : http://chyoad.cloud/api/user/get/:userId?apiKey=
 
     - Request params get user
       ```
@@ -52,7 +52,7 @@
 
 + ### Update User API
 
-  * #### PATCH : http://chyoad.cloud/api/user/update/:userId
+  * #### PATCH : http://chyoad.cloud/api/user/update/:userId?apiKey=
 
     - Request params update user
       ```
@@ -85,7 +85,7 @@
 
 + ### Logout User API
 
-  * #### DELETE : http://chyoad.cloud/api/user/logout/:userId
+  * #### DELETE : http://chyoad.cloud/api/user/logout/:userId?apiKey=
 
     - Request params logout user
       ```

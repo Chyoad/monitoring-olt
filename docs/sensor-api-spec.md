@@ -2,7 +2,7 @@
 
 + ### Create Sensor API
 
-  * #### POST : http://203.194.112.194:3000/api/sensor/create/:deviceId
+  * #### POST : https://chyoad.cloud/api/sensor/create/:deviceId?apiKey=
 
     - Request Params create sensor
       ```
@@ -39,7 +39,7 @@
 
 + ### Get Sensor API
 
-  * #### GET : http://203.194.112.194:3000/api/sensor/get/:deviceId
+  * #### GET : https:////chyoad.cloud/api/sensor/get/:deviceId?apiKey=
 
     - Request params get sensor
       ```
