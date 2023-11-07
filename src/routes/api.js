@@ -7,11 +7,11 @@ import { petugasMiddleware, adminMiddleware, deviceMiddleware } from "../middlew
 const apiRouter = new express.Router();
 
 /* DEVICE ROUTE */
-apiRouter.post('/api/device/create', deviceController.create);
+apiRouter.post('/api/device/create', adminMiddleware, deviceController.create);
 apiRouter.get('/api/device/get/:deviceId', petugasMiddleware, deviceController.get);
 apiRouter.patch('/api/device/update/:deviceId', adminMiddleware, deviceController.update);
 apiRouter.delete('/api/device/remove/:deviceId', adminMiddleware, deviceController.remove);
-apiRouter.get('/api/device/all', deviceController.all);
+apiRouter.get('/api/device/all', petugasMiddleware, deviceController.all);
 
 
 /* SENSOR ROUTE */
