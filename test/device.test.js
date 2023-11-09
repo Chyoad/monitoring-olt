@@ -1,23 +1,28 @@
 import supertest from "supertest";
 import { web } from "../src/app/web.js";
 import { logger } from "../src/app/logging.js";
-import { createTestDevice, removeTestDevice } from "./test-util.js";
+import { createTestUser, removeTestUser, createTestDevice, removeTestDevice, removeTestDevice1 } from "./test-util.js";
 
 describe('POST /api/device/create', function () {
 
   afterEach(async () => {
-    await removeTestDevice();
+    await removeTestDevice1();
+    await removeTestUser();
   })
 
   it('should can create new device', async () => {
+    const user = await createTestUser();
     const result = await supertest(web)
       .post('/api/device/create')
+      .query({ apiKey: user.token })
       .send({
         name: 'testDevice',
         location: 'testLocation',
         latitude: 'testLatitude',
         longitude: 'testLongitude'
       });
+
+    logger.info(result.body);
 
     expect(result.status).toBe(200);
     expect(result.body.data.name).toBe("testDevice");
@@ -28,11 +33,15 @@ describe('POST /api/device/create', function () {
   });
 
   it('should reject if request is invalid', async () => {
+    const user = await createTestUser();
     const result = await supertest(web)
       .post('/api/device/create')
+      .query({ apiKey: user.token })
       .send({
         name: '',
         location: '',
+        latitude: '',
+        longitude: ''
       });
 
     logger.info(result.body);
@@ -42,11 +51,15 @@ describe('POST /api/device/create', function () {
   });
 
   it('should reject if device already created', async () => {
+    const user = await createTestUser();
     let result = await supertest(web)
       .post('/api/device/create')
+      .query({ apiKey: user.token })
       .send({
         name: 'testDevice',
         location: 'testLocation',
+        latitude: 'testLatitude',
+        longitude: 'testLongitude'
       });
 
     logger.info(result.body);
@@ -57,9 +70,12 @@ describe('POST /api/device/create', function () {
 
     result = await supertest(web)
       .post('/api/device/create')
+      .query({ apiKey: user.token })
       .send({
         name: 'testDevice',
         location: 'testLocation',
+        latitude: 'testLatitude',
+        longitude: 'testLongitude'
       });
 
     logger.info(result.body);
@@ -72,17 +88,134 @@ describe('POST /api/device/create', function () {
 describe('GET /api/device/get', function () {
 
   afterEach(async () => {
-    removeTestDevice();
+    await removeTestDevice();
+    await removeTestUser();
   });
 
   it('should can get the device', async () => {
-    const device = createTestDevice();
+    const user = await createTestUser();
+    const device = await createTestDevice();
     const result = await supertest(web)
-      .get(`api/device/get/${device.deviceId}`)
+      .get(`/api/device/get/${device.deviceId}`)
+      .query({ apiKey: user.token })
 
     logger.info(result.body);
 
     expect(result.status).toBe(200);
-    //expect(result.body.data.deviceId).toBe("1");
+    expect(result.body.data.apiKey).toBe('testApiKey');
   });
+
+  it('should return 404 if device id is not found', async () => {
+    const user = await createTestUser();
+    //const device = await createTestDevice();
+    const result = await supertest(web)
+      .get(`/api/device/get/salah`)
+      .query({ apiKey: user.token })
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(404);
+  });
+
+});
+
+
+describe('PACTH /api/device/update', function () {
+
+  afterEach(async () => {
+    await removeTestDevice();
+    await removeTestUser();
+  });
+
+  it('should can update device', async () => {
+    const user = await createTestUser();
+    const device = await createTestDevice();
+    const result = await supertest(web)
+      .patch(`/api/device/update/${device.deviceId}`)
+      .query({ apiKey: user.token })
+      .send({
+        name: 'testDevice1',
+        location: 'testLocation1',
+        latitude: 'testLatitude1',
+        longitude: 'testLongitude1'
+      });
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(200);
+    expect(result.body.data.name).toBe("testDevice1");
+    expect(result.body.data.location).toBe("testLocation1");
+    expect(result.body.data.latitude).toBe("testLatitude1");
+    expect(result.body.data.longitude).toBe("testLongitude1");
+    expect(result.body.data.apiKey).toBeDefined();
+  });
+
+  it('should can update device name', async () => {
+    const user = await createTestUser();
+    const device = await createTestDevice();
+    const result = await supertest(web)
+      .patch(`/api/device/update/${device.deviceId}`)
+      .query({ apiKey: user.token })
+      .send({
+        name: 'testDevice2',
+      });
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(200);
+    expect(result.body.data.name).toBe("testDevice2");
+  })
+
+  it('should reject if request is not valid', async () => {
+    const user = await createTestUser();
+    const device = await createTestDevice();
+    const result = await supertest(web)
+      .patch(`/api/device/update/${device.deviceId}`)
+      .query({ apiKey: user.token })
+      .send({
+        name: '',
+        location: '',
+        latitude: '',
+        longitude: ''
+      });
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(400);
+  });
+
+});
+
+describe('DELETE /api/device/remove', function () {
+
+  afterEach(async () => {
+    await removeTestDevice();
+    await removeTestUser();
+  });
+
+  it('should can remove device', async () => {
+    const user = await createTestUser();
+    const device = await createTestDevice();
+    const result = await supertest(web)
+      .delete(`/api/device/remove/${device.deviceId}`)
+      .query({ apiKey: user.token })
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(200);
+    expect(result.body.data).toBe("OK");
+  });
+
+  it('should reject if device not found', async () => {
+    const user = await createTestUser();
+    const device = await createTestDevice();
+    const result = await supertest(web)
+      .delete(`/api/device/remove/salah`)
+      .query({ apiKey: user.token })
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(404);
+  });
+
 });

@@ -77,7 +77,7 @@ export const deviceMiddleware = async (req, res, next) => {
     });
 
     if (!device) {
-      res.status(401).json({ errors: "Device not found" }).end();
+      res.status(404).json({ errors: "Device not found" }).end();
     } else {
       if (token === device.apiKey) {
         next();

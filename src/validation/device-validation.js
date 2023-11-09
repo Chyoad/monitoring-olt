@@ -13,9 +13,9 @@ const getDeviceValidation = Joi.object({
 
 const updateDeviceValidation = Joi.object({
   name: Joi.string().max(255).required(),
-  location: Joi.string().max(255).required(),
-  latitude: Joi.string().max(255).required(),
-  longitude: Joi.string().max(255).required()
+  location: Joi.string().max(255).optional(),
+  latitude: Joi.string().max(255).optional(),
+  longitude: Joi.string().max(255).optional()
 })
 
 
