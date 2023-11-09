@@ -73,6 +73,7 @@ const get = async (req) => {
       location: true,
       latitude: true,
       longitude: true,
+      apiKey: true,
       createdAt: true,
       updatedAt: true
     }
@@ -116,6 +117,7 @@ const update = async (req1, req2) => {
       name: true,
       location: true,
       latitude: true,
+      apiKey: true,
       longitude: true,
       createdAt: true,
       updatedAt: true
