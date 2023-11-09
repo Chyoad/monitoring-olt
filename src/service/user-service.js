@@ -88,6 +88,7 @@ const update = async (id, data) => {
     select: {
       userId: true,
       username: true,
+      password: true
     }
   });
 
@@ -95,16 +96,25 @@ const update = async (id, data) => {
     throw new ResponseError(404, "User not found");
   }
 
-  const password = await bcrypt.hash(dataReq.password, 10);
+  let a = {};
+  if (dataReq.password) {
+    const password = await bcrypt.hash(dataReq.password, 10);
+    a = {
+      username: dataReq.username,
+      password: password
+    }
+  } else {
+    a = {
+      username: dataReq.username,
+      password: user.password
+    }
+  }
 
   return prismaClient.user.update({
     where: {
       userId: user.userId
     },
-    data: {
-      username: dataReq.username,
-      password: password
-    },
+    data: a,
     select: {
       userId: true,
       username: true,

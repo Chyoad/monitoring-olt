@@ -14,12 +14,17 @@ describe('POST /api/device/create', function () {
       .post('/api/device/create')
       .send({
         name: 'testDevice',
-        location: 'testLocation'
+        location: 'testLocation',
+        latitude: 'testLatitude',
+        longitude: 'testLongitude'
       });
 
     expect(result.status).toBe(200);
     expect(result.body.data.name).toBe("testDevice");
     expect(result.body.data.location).toBe("testLocation");
+    expect(result.body.data.latitude).toBe("testLatitude");
+    expect(result.body.data.longitude).toBe("testLongitude");
+    expect(result.body.data.apiKey).toBeDefined();
   });
 
   it('should reject if request is invalid', async () => {
