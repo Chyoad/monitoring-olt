@@ -24,6 +24,7 @@
           "location": "location_1",
           "latitude": "297070298",
           "longitude": "-129736781",
+          "status": false,
           "apiKey": "wadawdad.awdawdad.awdawdad",
           "createdAt": "2023-10-19T08:29:01.682Z",
           "updatedAt": "2023-10-19T08:29:01.682Z"
@@ -49,6 +50,7 @@
           "location": "location_1",
           "latitude": "297070298",
           "longitude": "-129736781",
+          "status": false,
           "apiKey": "wadawdad.awdawdad.awdawdad",
           "createdAt": "2023-10-19T08:29:01.682Z",
           "updatedAt": "2023-10-19T08:29:01.682Z"
@@ -75,6 +77,7 @@
             "location": "location_1",
             "latitude": "-7.823833586627168",
             "longitude": "110.3644550417918",
+            "status": true,
             "apiKey": "5XL5T8-CV5Xdr-0g6qqx-30j4VF",
             "createdAt": "2023-11-02T07:12:31.517Z",
             "updatedAt": "2023-11-02T07:12:31.517Z"
@@ -85,6 +88,7 @@
             "location": "location_2",
             "latitude": "-7.823833586627168",
             "longitude": "110.3644550417918",
+            "status": true,
             "apiKey": "5XL5T8-CV5Xdr-0g6qqx-30j4VF",
             "createdAt": "2023-11-06T08:47:45.379Z",
             "updatedAt": "2023-11-06T08:47:45.379Z"
@@ -109,7 +113,8 @@
           "name": "device_2",
           "location": "location_2",
           "latitude": "297070298",
-          "longitude": "-129736781"
+          "longitude": "-129736781",
+          "status": true,
       }
       ```
 
@@ -122,6 +127,7 @@
           "location": "location_2",
           "latitude": "297070298",
           "longitude": "-129736781",
+          "status": true,
           "apiKey": "5XL5T8-CV5Xdr-0g6qqx-30j4VF"
           "createdAt": "2023-10-19T08:29:01.682Z",
           "updatedAt": "2023-10-19T08:29:01.682Z"
@@ -142,5 +148,21 @@
       ```
       {
         "data": "OK"
+      }
+      ```
+
++ ### Get status Device API
+
+  * #### GET : https://chyoad.cloud/api/relay/:deviceId?apiKey=
+
+    - Request params get status device
+      ```
+      :deviceId
+      ```
+
+    - Response body get status device
+      ```
+      {
+        "status": 1
       }
       ```
