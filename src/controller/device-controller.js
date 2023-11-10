@@ -57,6 +57,17 @@ const all = async (req, res, next) => {
   }
 }
 
+const getStatus = async (req, res, next) => {
+  try {
+    const result = await deviceService.getStatus(req.params);
+    res.status(200).json({
+      status: result
+    });
+  } catch (e) {
+    next(e);
+  }
+}
+
 
 
 export default {
@@ -64,5 +75,6 @@ export default {
   get,
   update,
   remove,
-  all
+  all,
+  getStatus
 }

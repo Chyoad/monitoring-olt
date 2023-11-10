@@ -46,16 +46,6 @@ const create = async (req) => {
       latitude: device.latitude,
       longitude: device.longitude,
       apiKey: apiKey
-    },
-    select: {
-      deviceId: true,
-      name: true,
-      location: true,
-      latitude: true,
-      longitude: true,
-      apiKey: true,
-      createdAt: true,
-      updatedAt: true
     }
   });
 }
@@ -66,16 +56,6 @@ const get = async (req) => {
   const device = await prismaClient.device.findUnique({
     where: {
       deviceId: deviceReq.deviceId
-    },
-    select: {
-      deviceId: true,
-      name: true,
-      location: true,
-      latitude: true,
-      longitude: true,
-      apiKey: true,
-      createdAt: true,
-      updatedAt: true
     }
   });
 
@@ -104,24 +84,15 @@ const update = async (req1, req2) => {
     name: device.name,
     location: device.location,
     latitude: device.latitude,
-    longitude: device.longitude
+    longitude: device.longitude,
+    status: device.status
   }
 
   return prismaClient.device.update({
     where: {
       deviceId: id.deviceId
     },
-    data: data,
-    select: {
-      deviceId: true,
-      name: true,
-      location: true,
-      latitude: true,
-      apiKey: true,
-      longitude: true,
-      createdAt: true,
-      updatedAt: true
-    }
+    data: data
   });
 }
 
@@ -161,10 +132,30 @@ const all = async (req) => {
   return device;
 }
 
+const getStatus = async (req) => {
+  const deviceReq = validate(getDeviceValidation, req);
+
+  const device = await prismaClient.device.findUnique({
+    where: {
+      deviceId: deviceReq.deviceId
+    },
+    select: {
+      status: true
+    }
+  });
+
+  if (!device) {
+    throw new ResponseError(404, "Device not found");
+  }
+
+  return device.status === false ? 0 : 1;
+}
+
 export default {
   create,
   get,
   update,
   remove,
-  all
+  all,
+  getStatus
 }

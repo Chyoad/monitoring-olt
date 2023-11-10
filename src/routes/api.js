@@ -12,6 +12,7 @@ apiRouter.get('/api/device/get/:deviceId', petugasMiddleware, deviceController.g
 apiRouter.patch('/api/device/update/:deviceId', adminMiddleware, deviceController.update);
 apiRouter.delete('/api/device/remove/:deviceId', adminMiddleware, deviceController.remove);
 apiRouter.get('/api/device/all', petugasMiddleware, deviceController.all);
+apiRouter.get('/api/relay/:deviceId', deviceMiddleware, deviceController.getStatus);
 
 
 /* SENSOR ROUTE */

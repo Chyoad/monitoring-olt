@@ -28,6 +28,7 @@ model Device {
   location      String      @db.VarChar(255)
   latitude      String      @db.VarChar(255)
   longitude     String      @db.VarChar(255)
+  status        Boolean     @db.TinyInt() @default(false)
   apiKey        String      @db.VarChar(255)
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
