@@ -5,7 +5,8 @@ const createSensorValidation = Joi.object({
   arus: Joi.number().required(),
   daya: Joi.number().required(),
   energi: Joi.number().required(),
-  suhu: Joi.number().required()
+  suhu: Joi.number().required(),
+  kelembapan: Joi.number().required()
 });
 
 

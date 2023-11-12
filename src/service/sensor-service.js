@@ -30,6 +30,7 @@ const create = async (req1, req2) => {
       daya: sensor.daya,
       energi: sensor.energi,
       suhu: sensor.suhu,
+      kelembapan: sensor.kelembapan
     },
     select: {
       sensorId: true,
@@ -39,6 +40,7 @@ const create = async (req1, req2) => {
       daya: true,
       energi: true,
       suhu: true,
+      kelembapan: true,
       createdAt: true,
       updatedAt: true
     }

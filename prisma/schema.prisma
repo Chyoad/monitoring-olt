@@ -46,6 +46,7 @@ model Sensor {
   daya          Float
   energi        Float
   suhu          Float
+  kelembapan    Float
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 
