@@ -79,7 +79,8 @@ export const createTestSensor = async (props) => {
       arus: 1.2,
       daya: 1.2,
       energi: 5.2,
-      suhu: 2.2
+      suhu: 2.2,
+      kelembapan: 2.2
     }
   });
 }

@@ -19,7 +19,8 @@ describe('POST /api/sensor/create', function () {
         arus: 1.2,
         daya: 1.2,
         energi: 5.2,
-        suhu: 2.2
+        suhu: 2.2,
+        kelembapan: 2.2,
       });
 
     logger.info(result.body);
@@ -30,6 +31,7 @@ describe('POST /api/sensor/create', function () {
     expect(result.body.data.daya).toBe(1.2);
     expect(result.body.data.energi).toBe(5.2);
     expect(result.body.data.suhu).toBe(2.2);
+    expect(result.body.data.kelembapan).toBe(2.2);
   });
 
   it('should reject if request is invalid', async () => {
@@ -100,5 +102,7 @@ describe('GET /api/sensor/get', function () {
     expect(result.status).toBe(404);
     expect(result.error).toBeDefined();
   });
+
+
 
 });

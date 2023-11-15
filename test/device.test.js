@@ -219,3 +219,58 @@ describe('DELETE /api/device/remove', function () {
   });
 
 });
+
+describe('GET /api/device/all', function () {
+
+  beforeEach(async () => {
+    await createTestDevice();
+  });
+
+  afterEach(async () => {
+    await removeTestDevice();
+    await removeTestUser();
+  });
+
+  it('should can get all device', async () => {
+    const user = await createTestUser();
+    const result = await supertest(web)
+      .get(`/api/device/all`)
+      .query({ apiKey: user.token })
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(200);
+    expect(result.body.data).toBeDefined();
+  });
+});
+
+describe('GET /api/relay', function () {
+
+  afterEach(async () => {
+    await removeTestDevice();
+  });
+
+  it('should can get status relay', async () => {
+    const device = await createTestDevice();
+    const result = await supertest(web)
+      .get(`/api/relay/${device.deviceId}`)
+      .query({ apiKey: device.apiKey })
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(200);
+    expect(result.body.status).toBeDefined();
+  });
+
+  it('should return 404 if device id not found', async () => {
+    const device = await createTestDevice();
+    const result = await supertest(web)
+      .get(`/api/relay/salah`)
+      .query({ apiKey: device.apiKey })
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(404);
+    expect(result.body.errors).toBeDefined();
+  });
+});
