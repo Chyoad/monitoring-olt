@@ -72,7 +72,7 @@ const updateStatus = async (req, res, next) => {
   try {
     const deviceId = req.params
     const data = req.body
-    const result = await deviceService.update(deviceId, data);
+    const result = await deviceService.updateStatus(deviceId, data);
     res.status(200).json({
       data: result
     });

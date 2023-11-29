@@ -166,3 +166,28 @@
         "status": 1
       }
       ```
+
++ ### Update status Device API
+
+  * #### PATCH : https://chyoad.cloud/api/relay/update/:deviceId?apiKey=
+
+    - Request Params update status device
+      ```
+      :deviceId
+      ```
+
+    - Request body update status device
+      ```
+      {
+          "status": true,
+      }
+      ```
+
+    - Response body update status device
+      ```
+      {
+        "data": {
+          "status": true,
+        }
+      }
+      ```
