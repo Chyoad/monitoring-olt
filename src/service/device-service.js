@@ -151,11 +151,39 @@ const getStatus = async (req) => {
   return device.status === false ? 0 : 1;
 }
 
+const updateStatus = async (req1, req2) => {
+  const id = validate(getDeviceValidation, req1);
+  const device = validate(updateDeviceValidation, req2);
+
+  const countDevice = await prismaClient.device.count({
+    where: {
+      deviceId: id.deviceId,
+    }
+  })
+
+  if (countDevice !== 1) {
+    throw new ResponseError(404, "Device not found");
+  }
+
+  return prismaClient.device.update({
+    where: {
+      deviceId: id.deviceId
+    },
+    data: {
+      status: device.status
+    },
+    select: {
+      status: true
+    }
+  });
+}
+
 export default {
   create,
   get,
   update,
   remove,
   all,
-  getStatus
+  getStatus,
+  updateStatus
 }

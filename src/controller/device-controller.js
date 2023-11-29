@@ -68,6 +68,19 @@ const getStatus = async (req, res, next) => {
   }
 }
 
+const updateStatus = async (req, res, next) => {
+  try {
+    const deviceId = req.params
+    const data = req.body
+    const result = await deviceService.update(deviceId, data);
+    res.status(200).json({
+      data: result
+    });
+  } catch (e) {
+    next(e);
+  }
+}
+
 
 
 export default {
@@ -76,5 +89,6 @@ export default {
   update,
   remove,
   all,
-  getStatus
+  getStatus,
+  updateStatus
 }
