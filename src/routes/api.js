@@ -8,12 +8,18 @@ const apiRouter = new express.Router();
 
 /* DEVICE ROUTE */
 apiRouter.post('/api/device/create', adminMiddleware, deviceController.create);
-apiRouter.get('/api/device/get/:deviceId', deviceMiddleware, deviceController.get);
 apiRouter.patch('/api/device/update/:deviceId', adminMiddleware, deviceController.update);
 apiRouter.delete('/api/device/remove/:deviceId', adminMiddleware, deviceController.remove);
-apiRouter.get('/api/device/all', deviceController.all);
+
+apiRouter.get('/api/device/get/:deviceId', petugasMiddleware, deviceController.get);
+apiRouter.get('/api/device/all', petugasMiddleware, deviceController.all);
+apiRouter.patch('/api/relay/update/:deviceId', petugasMiddleware, deviceController.updateStatus);
+
 apiRouter.get('/api/relay/:deviceId', deviceMiddleware, deviceController.getStatus);
-apiRouter.patch('/api/relay/update/:deviceId', deviceMiddleware, deviceController.updateStatus);
+
+apiRouter.get('/api/device/getDashboard/:deviceId', deviceController.getDashboard);
+apiRouter.put('/api/relay/updateDashboard/:deviceId', deviceController.updateStatus);
+apiRouter.get('/api/sensor/getDashboard/:deviceId', sensorController.get);
 
 
 /* SENSOR ROUTE */

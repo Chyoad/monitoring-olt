@@ -3,6 +3,7 @@ import {
   createDeviceValidation,
   getDeviceValidation,
   updateDeviceValidation,
+  updateRelayValidation
 } from "../validation/device-validation.js";
 import { prismaClient } from "../app/database.js";
 import { ResponseError } from "../error/response-error.js";
@@ -36,7 +37,6 @@ const create = async (req) => {
       apiKey += '-';
     }
   }
-
 
   return prismaClient.device.create({
     data: {
@@ -153,7 +153,7 @@ const getStatus = async (req) => {
 
 const updateStatus = async (req1, req2) => {
   const id = validate(getDeviceValidation, req1);
-  const device = validate(updateDeviceValidation, req2);
+  const device = validate(updateRelayValidation, req2);
 
   const countDevice = await prismaClient.device.count({
     where: {
@@ -178,6 +178,33 @@ const updateStatus = async (req1, req2) => {
   });
 }
 
+const getDashboard = async (req) => {
+  const deviceReq = validate(getDeviceValidation, req);
+
+  const device = await prismaClient.device.findUnique({
+    where: {
+      deviceId: deviceReq.deviceId
+    },
+    select: {
+      deviceId: true,
+      name: true,
+      location: true,
+      latitude: true,
+      longitude: true,
+      status: true,
+      createdAt: true,
+      updatedAt: true
+    }
+  });
+
+  if (!device) {
+    throw new ResponseError(404, "Device not found");
+  }
+
+  return device;
+}
+
+
 export default {
   create,
   get,
@@ -185,5 +212,6 @@ export default {
   remove,
   all,
   getStatus,
-  updateStatus
+  updateStatus,
+  getDashboard
 }

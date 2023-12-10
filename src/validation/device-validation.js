@@ -17,10 +17,15 @@ const updateDeviceValidation = Joi.object({
   latitude: Joi.string().max(255).optional(),
   longitude: Joi.string().max(255).optional(),
   status: Joi.boolean().optional()
-})
+});
+
+const updateRelayValidation = Joi.object({
+  status: Joi.boolean().required()
+});
 
 export {
   createDeviceValidation,
   getDeviceValidation,
-  updateDeviceValidation
+  updateDeviceValidation,
+  updateRelayValidation,
 }
