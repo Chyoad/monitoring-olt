@@ -17,10 +17,6 @@ apiRouter.patch('/api/relay/update/:deviceId', petugasMiddleware, deviceControll
 
 apiRouter.get('/api/relay/:deviceId', deviceMiddleware, deviceController.getStatus);
 
-apiRouter.get('/api/device/getDashboard/:deviceId', deviceController.getDashboard);
-apiRouter.put('/api/relay/updateDashboard/:deviceId', deviceController.updateStatus);
-apiRouter.get('/api/sensor/getDashboard/:deviceId', sensorController.get);
-
 
 /* SENSOR ROUTE */
 apiRouter.post('/api/sensor/create/:deviceId', deviceMiddleware, sensorController.create);

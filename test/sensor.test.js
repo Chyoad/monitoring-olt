@@ -70,18 +70,14 @@ describe('POST /api/sensor/create', function () {
 describe('GET /api/sensor/get', function () {
 
   afterEach(async () => {
-    await removeTestUser();
     await removeTestDevice();
-    await removeTestSensor();
   });
 
   it('should can get sensor', async () => {
-    const user = await createTestUser();
     const device = await createTestDevice();
-    const sensor = await createTestSensor(device.deviceId);
     const result = await supertest(web)
       .get(`/api/sensor/get/${device.deviceId}`)
-      .query({ apiKey: user.token })
+      .query({ apiKey: device.apiKey })
 
     logger.info(result.body);
 
@@ -90,19 +86,42 @@ describe('GET /api/sensor/get', function () {
   });
 
   it('should return 404 if device sensor is not found', async () => {
-    const user = await createTestUser();
     const device = await createTestDevice();
-    const sensor = await createTestSensor(device.deviceId);
     const result = await supertest(web)
       .get(`/api/sensor/get/salah`)
-      .query({ apiKey: user.token })
+      .query({ apiKey: device.apiKey })
 
     logger.info(result.body);
 
     expect(result.status).toBe(404);
     expect(result.error).toBeDefined();
   });
+});
 
+describe('GET /api/sensor/getDashboard', function () {
 
+  afterEach(async () => {
+    await removeTestDevice();
+  });
 
+  it('should can get sensor without apiKey', async () => {
+    const device = await createTestDevice();
+    const result = await supertest(web)
+      .get(`/api/sensor/getDashboard/${device.deviceId}`)
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(200);
+    expect(result.body.data).toBeDefined();
+  });
+
+  it('should return 404 if device sensor is not found', async () => {
+    const result = await supertest(web)
+      .get(`/api/sensor/get/salah`)
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(404);
+    expect(result.error).toBeDefined();
+  });
 });

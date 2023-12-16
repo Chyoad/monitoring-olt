@@ -2,7 +2,7 @@
 
 + ### Create Device API
 
-  * #### POST : https://chyoad.cloud/api/device/create?apiKey=
+  * #### POST : https://localhost:3000/api/device/create?apiKey=
 
     - Request body create device
         ```
@@ -34,7 +34,7 @@
 
 + ### Get Device API
 
-  * #### GET : https://chyoad.cloud/api/device/get/:deviceId?apiKey=
+  * #### GET : https://localhost:3000/api/device/get/:deviceId?apiKey=
 
     - Request params get device
       ```
@@ -60,7 +60,7 @@
 
 + ### Get All Device API
 
-  * #### GET : https://chyoad.cloud/api/device/all?apiKey=
+  * #### GET : https://localhost:3000/api/device/all?apiKey=
 
     - Request params get device
       ```
@@ -100,7 +100,7 @@
 
 + ### Update Device API
 
-  * #### PATCH : https://chyoad.cloud/api/device/update/:deviceId?apiKey=
+  * #### PATCH : https://localhost:3000/api/device/update/:deviceId?apiKey=
 
     - Request Params update device
       ```
@@ -137,7 +137,7 @@
 
 + ### Remove Device API
 
-  * #### DELETE : https://chyoad.cloud/api/device/remove/:deviceId?apiKey=
+  * #### DELETE : https://localhost:3000/api/device/remove/:deviceId?apiKey=
 
     - Request Params remove device
       ```
@@ -153,7 +153,7 @@
 
 + ### Get status Device API
 
-  * #### GET : https://chyoad.cloud/api/relay/:deviceId?apiKey=
+  * #### GET : https://localhost:3000/api/relay/:deviceId?apiKey=
 
     - Request params get status device
       ```
@@ -169,7 +169,7 @@
 
 + ### Update status Device API
 
-  * #### PATCH : https://chyoad.cloud/api/relay/update/:deviceId?apiKey=
+  * #### PATCH : https://localhost:3000/api/relay/update/:deviceId?apiKey=
 
     - Request Params update status device
       ```
@@ -192,9 +192,9 @@
       }
       ```
 
-+ ### Get Device API (Khusus dashboard)
++ ### Get Device API (Dashboard)
 
-  * #### GET : https://chyoad.cloud/api/device/get/:deviceId
+  * #### GET : https://localhost:3000/api/device/getDashboard/:deviceId
 
     - Request params get device
       ```
@@ -217,9 +217,9 @@
         }
       }
 
-+ ### Update status Device API (Khusus Dashboard) 
++ ### Update status Device API (Dashboard) 
 
-  * #### PATCH : https://chyoad.cloud/api/relay/update/:deviceId
+  * #### PATCH : https://localhost:3000/api/relay/updateDashboard/:deviceId
 
     - Request Params update status device
       ```

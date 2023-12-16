@@ -274,3 +274,106 @@ describe('GET /api/relay', function () {
     expect(result.body.errors).toBeDefined();
   });
 });
+
+describe('PATCH /api/relay/update', function () {
+
+  afterEach(async () => {
+    await removeTestDevice()
+    await removeTestUser();
+  });
+
+  it('should can update status relay', async () => {
+    const user = await createTestUser();
+    const device = await createTestDevice();
+    const result = await supertest(web)
+      .patch(`/api/relay/update/${device.deviceId}`)
+      .query({ apiKey: user.token })
+      .send({
+        status: true,
+      });
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(200);
+    expect(result.body.data.status).toBe(true);
+  });
+
+  it('should reject if request is not valid', async () => {
+    const user = await createTestUser();
+    const device = await createTestDevice();
+    const result = await supertest(web)
+      .patch(`/api/relay/update/${device.deviceId}`)
+      .query({ apiKey: user.token })
+      .send({
+        status: 'salah',
+      });
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(400);
+    expect(result.body.errors).toBeDefined();
+  });
+});
+
+describe('GET /api/device/getDashboard', function () {
+
+  afterEach(async () => {
+    await removeTestDevice();
+  });
+
+  it('should can get device without login in dashboard', async () => {
+    const device = await createTestDevice();
+    const result = await supertest(web)
+      .get(`/api/device/getDashboard/${device.deviceId}`)
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(200);
+    expect(result.body.data).toBeDefined();
+  });
+
+  it('should return 404 if device id is not found', async () => {
+    const result = await supertest(web)
+      .get(`/api/device/getDashboard/${"salah"}`)
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(404);
+    expect(result.body.errors).toBeDefined();
+  });
+});
+
+describe('PATCH /api/relay/updateDashboard', function () {
+
+  afterEach(async () => {
+    await removeTestDevice();
+  });
+
+  it('should can update status relay without login in dashboard', async () => {
+    const device = await createTestDevice();
+    const result = await supertest(web)
+      .patch(`/api/relay/updateDashboard/${device.deviceId}`)
+      .send({
+        status: true,
+      });
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(200);
+    expect(result.body.data.status).toBe(true);
+  });
+
+  it('should reject if request is not valid', async () => {
+    const device = await createTestDevice();
+    const result = await supertest(web)
+      .patch(`/api/relay/updateDashboard/${device.deviceId}`)
+      .send({
+        status: 'salah',
+      });
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(400);
+    expect(result.body.errors).toBeDefined();
+  });
+});
