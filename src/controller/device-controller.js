@@ -81,6 +81,17 @@ const updateStatus = async (req, res, next) => {
   }
 }
 
+const getBattery = async (req, res, next) => {
+  try {
+    const result = await deviceService.getBattery(req.params);
+    res.status(200).json({
+      data: result
+    });
+  } catch (e) {
+    next(e);
+  }
+}
+
 const getDashboard = async (req, res, next) => {
   try {
     const result = await deviceService.getDashboard(req.params);
@@ -93,6 +104,8 @@ const getDashboard = async (req, res, next) => {
 }
 
 
+
+
 export default {
   create,
   get,
@@ -102,4 +115,5 @@ export default {
   getStatus,
   updateStatus,
   getDashboard,
+  getBattery
 }

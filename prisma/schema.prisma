@@ -23,18 +23,47 @@ model User {
 }
 
 model Device {
-  deviceId      String      @id @db.VarChar(255)
-  name          String      @db.VarChar(255)
-  location      String      @db.VarChar(255)
-  latitude      String      @db.VarChar(255)
-  longitude     String      @db.VarChar(255)
-  status        Boolean     @db.TinyInt() @default(false)
-  apiKey        String      @db.VarChar(255)
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  deviceId      String          @id @db.VarChar(255)
+  name          String          @db.VarChar(255)
+  location      String          @db.VarChar(255)
+  latitude      String          @db.VarChar(255)
+  longitude     String          @db.VarChar(255)
+  status        Boolean         @db.TinyInt() @default(false)
+  apiKey        String          @db.VarChar(255)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
   sensor        Sensor[]
+  spec_battery  Spec_battery?
 
   @@map("devices")
+}
+
+model Spec_battery {
+  specBatteryId   String      @id @default(uuid())
+  idDevice        Device      @relation(fields: [deviceId], references: [deviceId])
+  deviceId        String      @unique
+  batteryBrand    String      @db.VarChar(255)
+  voltageNominal  Float
+  voltageTop      Float
+  voltageLow      Float
+  batteryCapacity Float
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  battery         Battery[]
+
+  @@map("spec_batterys")
+}
+
+model Battery {
+  batteryId       String            @id @default(uuid())
+  idSpecBattery   Spec_battery      @relation(fields: [specBatteryId], references: [specBatteryId])
+  specBatteryId   String
+  capacityNow     Float
+  persentageNow   Float
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@map("batterys")
 }
 
 model Sensor {

@@ -15,6 +15,9 @@ const create = async (req1, req2) => {
   const deviceId = await prismaClient.device.findUnique({
     where: {
       deviceId: device.deviceId
+    },
+    select: {
+      deviceId: true
     }
   });
 
@@ -22,7 +25,40 @@ const create = async (req1, req2) => {
     throw new ResponseError(404, "Device not found");
   }
 
-  return prismaClient.sensor.create({
+  const sensorTemp = await prismaClient.sensor.findMany({
+    where: {
+      deviceId: device.deviceId
+    },
+    take: 1,
+    orderBy: {
+      createdAt: 'desc'
+    }
+  });
+
+  console.log(sensorTemp.createdAt);
+  // if (sensorTemp.createdAt ) {
+
+  // }
+
+  const specBattery = await prismaClient.spec_battery.findUnique({
+    where: {
+      deviceId: device.deviceId
+    }
+  });
+
+  const persentageNow = sensor.tegangan / specBattery.voltageTop * 100;
+
+  const capacityNow = specBattery.batteryCapacity * persentageNow / 100;
+
+  const resultBattery = await prismaClient.battery.create({
+    data: {
+      specBatteryId: specBattery.specBatteryId,
+      capacityNow: capacityNow,
+      persentageNow: persentageNow
+    }
+  });
+
+  const resultSensor = prismaClient.sensor.create({
     data: {
       deviceId: device.deviceId,
       tegangan: sensor.tegangan,
@@ -31,20 +67,10 @@ const create = async (req1, req2) => {
       energi: sensor.energi,
       suhu: sensor.suhu,
       kelembapan: sensor.kelembapan
-    },
-    select: {
-      sensorId: true,
-      deviceId: true,
-      tegangan: true,
-      arus: true,
-      daya: true,
-      energi: true,
-      suhu: true,
-      kelembapan: true,
-      createdAt: true,
-      updatedAt: true
     }
   });
+
+  return Promise.all([resultSensor, resultBattery]);
 }
 
 const get = async (req) => {

@@ -38,7 +38,7 @@ const create = async (req) => {
     }
   }
 
-  return prismaClient.device.create({
+  const resultDevice = await prismaClient.device.create({
     data: {
       deviceId: deviceId,
       name: device.name,
@@ -48,6 +48,19 @@ const create = async (req) => {
       apiKey: apiKey
     }
   });
+
+  const resultSpecBattery = await prismaClient.spec_battery.create({
+    data: {
+      deviceId: deviceId,
+      batteryBrand: device.batteryBrand,
+      voltageNominal: device.voltageNominal,
+      voltageTop: device.voltageTop,
+      voltageLow: device.voltageLow,
+      batteryCapacity: device.batteryCapacity
+    }
+  });
+
+  return Promise.all([resultDevice, resultSpecBattery]);
 }
 
 const get = async (req) => {
@@ -63,7 +76,13 @@ const get = async (req) => {
     throw new ResponseError(404, "Device not found");
   }
 
-  return device;
+  const specBattery = await prismaClient.spec_battery.findUnique({
+    where: {
+      deviceId: deviceReq.deviceId
+    }
+  });
+
+  return Promise.all([device, specBattery]);
 }
 
 const update = async (req1, req2) => {
@@ -80,20 +99,32 @@ const update = async (req1, req2) => {
     throw new ResponseError(404, "Device not found");
   }
 
-  const data = {
-    name: device.name,
-    location: device.location,
-    latitude: device.latitude,
-    longitude: device.longitude,
-    status: device.status
-  }
-
-  return prismaClient.device.update({
+  const resultDevice = await prismaClient.device.update({
     where: {
       deviceId: id.deviceId
     },
-    data: data
+    data: {
+      name: device.name,
+      location: device.location,
+      latitude: device.latitude,
+      longitude: device.longitude,
+    }
   });
+
+  const resultSpecBattery = await prismaClient.spec_battery.update({
+    where: {
+      deviceId: id.deviceId
+    },
+    data: {
+      batteryBrand: device.batteryBrand,
+      voltageNominal: device.voltageNominal,
+      voltageTop: device.voltageTop,
+      voltageLow: device.voltageLow,
+      batteryCapacity: device.batteryCapacity
+    }
+  });
+
+  return Promise.all([resultDevice, resultSpecBattery]);
 }
 
 const remove = async (req) => {
@@ -108,6 +139,18 @@ const remove = async (req) => {
   if (countDevice !== 1) {
     throw new ResponseError(404, "Device not found");
   }
+
+  const specBattery = await prismaClient.spec_battery.delete({
+    where: {
+      deviceId: device.deviceId
+    }
+  });
+
+  await prismaClient.battery.deleteMany({
+    where: {
+      specBatteryId: specBattery.specBatteryId
+    }
+  });
 
   await prismaClient.sensor.deleteMany({
     where: {
@@ -201,7 +244,46 @@ const getDashboard = async (req) => {
     throw new ResponseError(404, "Device not found");
   }
 
-  return device;
+  const specBattery = await prismaClient.spec_battery.findUnique({
+    where: {
+      deviceId: deviceReq.deviceId
+    }
+  });
+
+
+  return Promise.all([device, specBattery]);
+}
+
+const getBattery = async (req) => {
+  const deviceReq = validate(getDeviceValidation, req);
+
+  const device = await prismaClient.device.findUnique({
+    where: {
+      deviceId: deviceReq.deviceId
+    }
+  });
+
+  if (!device) {
+    throw new ResponseError(404, "Device not found");
+  }
+
+  const specBattery = await prismaClient.spec_battery.findUnique({
+    where: {
+      deviceId: deviceReq.deviceId
+    }
+  });
+
+  const battery = await prismaClient.battery.findMany({
+    where: {
+      specBatteryId: specBattery.specBatteryId
+    },
+    take: 5,
+    orderBy: {
+      createdAt: 'desc'
+    }
+  });
+
+  return battery;
 }
 
 
@@ -213,5 +295,6 @@ export default {
   all,
   getStatus,
   updateStatus,
-  getDashboard
+  getDashboard,
+  getBattery
 }

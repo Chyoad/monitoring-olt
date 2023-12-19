@@ -12,6 +12,7 @@ apiRouter.patch('/api/device/update/:deviceId', adminMiddleware, deviceControlle
 apiRouter.delete('/api/device/remove/:deviceId', adminMiddleware, deviceController.remove);
 
 apiRouter.get('/api/device/get/:deviceId', petugasMiddleware, deviceController.get);
+apiRouter.get('/api/battery/get/:deviceId', petugasMiddleware, deviceController.getBattery);
 apiRouter.get('/api/device/all', petugasMiddleware, deviceController.all);
 apiRouter.patch('/api/relay/update/:deviceId', petugasMiddleware, deviceController.updateStatus);
 

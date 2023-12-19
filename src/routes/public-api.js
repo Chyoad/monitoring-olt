@@ -12,6 +12,8 @@ publicRouter.post('/api/user/login', userController.login);
 /* DEVICE ROUTE */
 publicRouter.get('/api/device/getDashboard/:deviceId', deviceController.getDashboard);
 publicRouter.patch('/api/relay/updateDashboard/:deviceId', deviceController.updateStatus);
+publicRouter.get('/api/battery/getDashboard/:deviceId', deviceController.getBattery);
+
 
 
 /* SENSOR ROUTE */
