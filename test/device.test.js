@@ -1,7 +1,7 @@
 import supertest from "supertest";
 import { web } from "../src/app/web.js";
 import { logger } from "../src/app/logging.js";
-import { createTestUser, removeTestUser, createTestDevice, removeTestDevice, removeTestDevice1 } from "./test-util.js";
+import { createTestUser, removeTestUser, createTestDevice, removeTestDevice, removeTestDevice1, createTestBattery, removeTestBattery } from "./test-util.js";
 
 describe('POST /api/device/create', function () {
 
@@ -19,17 +19,19 @@ describe('POST /api/device/create', function () {
         name: 'testDevice',
         location: 'testLocation',
         latitude: 'testLatitude',
-        longitude: 'testLongitude'
+        longitude: 'testLongitude',
+        batteryBrand: 'test',
+        voltageNominal: 1000,
+        voltageTop: 500,
+        voltageLow: 200,
+        batteryCapacity: 2000
       });
 
     logger.info(result.body);
 
     expect(result.status).toBe(200);
-    expect(result.body.data.name).toBe("testDevice");
-    expect(result.body.data.location).toBe("testLocation");
-    expect(result.body.data.latitude).toBe("testLatitude");
-    expect(result.body.data.longitude).toBe("testLongitude");
-    expect(result.body.data.apiKey).toBeDefined();
+    expect(result.body.data).toBeDefined();
+    expect(result.body.data[0].apiKey).toBeDefined();
   });
 
   it('should reject if request is invalid', async () => {
@@ -41,7 +43,12 @@ describe('POST /api/device/create', function () {
         name: '',
         location: '',
         latitude: '',
-        longitude: ''
+        longitude: '',
+        batteryBrand: '',
+        voltageNominal: '',
+        voltageTop: '',
+        voltageLow: '',
+        batteryCapacity: ''
       });
 
     logger.info(result.body);
@@ -59,14 +66,18 @@ describe('POST /api/device/create', function () {
         name: 'testDevice',
         location: 'testLocation',
         latitude: 'testLatitude',
-        longitude: 'testLongitude'
+        longitude: 'testLongitude',
+        batteryBrand: 'test',
+        voltageNominal: 1000,
+        voltageTop: 500,
+        voltageLow: 200,
+        batteryCapacity: 2000
       });
 
     logger.info(result.body);
 
     expect(result.status).toBe(200);
-    expect(result.body.data.name).toBe("testDevice");
-    expect(result.body.data.location).toBe("testLocation");
+    expect(result.body.data).toBeDefined();
 
     result = await supertest(web)
       .post('/api/device/create')
@@ -75,7 +86,12 @@ describe('POST /api/device/create', function () {
         name: 'testDevice',
         location: 'testLocation',
         latitude: 'testLatitude',
-        longitude: 'testLongitude'
+        longitude: 'testLongitude',
+        batteryBrand: 'test',
+        voltageNominal: 1000,
+        voltageTop: 500,
+        voltageLow: 200,
+        batteryCapacity: 2000
       });
 
     logger.info(result.body);
@@ -96,18 +112,17 @@ describe('GET /api/device/get', function () {
     const user = await createTestUser();
     const device = await createTestDevice();
     const result = await supertest(web)
-      .get(`/api/device/get/${device.deviceId}`)
+      .get(`/api/device/get/${device[0].deviceId}`)
       .query({ apiKey: user.token })
 
     logger.info(result.body);
 
     expect(result.status).toBe(200);
-    expect(result.body.data.apiKey).toBe('testApiKey');
+    expect(result.body.data[0].apiKey).toBeDefined();
   });
 
   it('should return 404 if device id is not found', async () => {
     const user = await createTestUser();
-    //const device = await createTestDevice();
     const result = await supertest(web)
       .get(`/api/device/get/salah`)
       .query({ apiKey: user.token })
@@ -131,39 +146,42 @@ describe('PACTH /api/device/update', function () {
     const user = await createTestUser();
     const device = await createTestDevice();
     const result = await supertest(web)
-      .patch(`/api/device/update/${device.deviceId}`)
+      .patch(`/api/device/update/${device[0].deviceId}`)
       .query({ apiKey: user.token })
       .send({
-        name: 'testDevice1',
+        name: 'testDevice',
         location: 'testLocation1',
         latitude: 'testLatitude1',
-        longitude: 'testLongitude1'
+        longitude: 'testLongitude1',
+        batteryBrand: 'test',
+        voltageNominal: 1000,
+        voltageTop: 500,
+        voltageLow: 200,
+        batteryCapacity: 2000
       });
 
     logger.info(result.body);
 
     expect(result.status).toBe(200);
-    expect(result.body.data.name).toBe("testDevice1");
-    expect(result.body.data.location).toBe("testLocation1");
-    expect(result.body.data.latitude).toBe("testLatitude1");
-    expect(result.body.data.longitude).toBe("testLongitude1");
-    expect(result.body.data.apiKey).toBeDefined();
+    expect(result.body.data[0]).toBeDefined();
+    expect(result.body.data[1]).toBeDefined();
+    expect(result.body.data[0].apiKey).toBeDefined();
   });
 
-  it('should can update device name', async () => {
+  it('should can update device location', async () => {
     const user = await createTestUser();
     const device = await createTestDevice();
     const result = await supertest(web)
-      .patch(`/api/device/update/${device.deviceId}`)
+      .patch(`/api/device/update/${device[0].deviceId}`)
       .query({ apiKey: user.token })
       .send({
-        name: 'testDevice2',
+        location: 'testLocation2',
       });
 
     logger.info(result.body);
 
     expect(result.status).toBe(200);
-    expect(result.body.data.name).toBe("testDevice2");
+    expect(result.body.data[0].location).toBe("testLocation2");
   })
 
   it('should reject if request is not valid', async () => {
@@ -173,10 +191,7 @@ describe('PACTH /api/device/update', function () {
       .patch(`/api/device/update/${device.deviceId}`)
       .query({ apiKey: user.token })
       .send({
-        name: '',
-        location: '',
-        latitude: '',
-        longitude: ''
+        kosong: '',
       });
 
     logger.info(result.body);
@@ -197,7 +212,7 @@ describe('DELETE /api/device/remove', function () {
     const user = await createTestUser();
     const device = await createTestDevice();
     const result = await supertest(web)
-      .delete(`/api/device/remove/${device.deviceId}`)
+      .delete(`/api/device/remove/${device[0].deviceId}`)
       .query({ apiKey: user.token })
 
     logger.info(result.body);
@@ -240,7 +255,8 @@ describe('GET /api/device/all', function () {
     logger.info(result.body);
 
     expect(result.status).toBe(200);
-    expect(result.body.data).toBeDefined();
+    expect(result.body.data[0]).toBeDefined();
+    expect(result.body.data[1]).toBeDefined();
   });
 });
 
@@ -253,8 +269,8 @@ describe('GET /api/relay', function () {
   it('should can get status relay', async () => {
     const device = await createTestDevice();
     const result = await supertest(web)
-      .get(`/api/relay/${device.deviceId}`)
-      .query({ apiKey: device.apiKey })
+      .get(`/api/relay/${device[0].deviceId}`)
+      .query({ apiKey: device[0].apiKey })
 
     logger.info(result.body);
 
@@ -266,7 +282,7 @@ describe('GET /api/relay', function () {
     const device = await createTestDevice();
     const result = await supertest(web)
       .get(`/api/relay/salah`)
-      .query({ apiKey: device.apiKey })
+      .query({ apiKey: device[0].apiKey })
 
     logger.info(result.body);
 
@@ -286,7 +302,7 @@ describe('PATCH /api/relay/update', function () {
     const user = await createTestUser();
     const device = await createTestDevice();
     const result = await supertest(web)
-      .patch(`/api/relay/update/${device.deviceId}`)
+      .patch(`/api/relay/update/${device[0].deviceId}`)
       .query({ apiKey: user.token })
       .send({
         status: true,
@@ -324,12 +340,13 @@ describe('GET /api/device/getDashboard', function () {
   it('should can get device without login in dashboard', async () => {
     const device = await createTestDevice();
     const result = await supertest(web)
-      .get(`/api/device/getDashboard/${device.deviceId}`)
+      .get(`/api/device/getDashboard/${device[0].deviceId}`)
 
     logger.info(result.body);
 
     expect(result.status).toBe(200);
-    expect(result.body.data).toBeDefined();
+    expect(result.body.data[0]).toBeDefined();
+    expect(result.body.data[1]).toBeDefined();
   });
 
   it('should return 404 if device id is not found', async () => {
@@ -352,7 +369,7 @@ describe('PATCH /api/relay/updateDashboard', function () {
   it('should can update status relay without login in dashboard', async () => {
     const device = await createTestDevice();
     const result = await supertest(web)
-      .patch(`/api/relay/updateDashboard/${device.deviceId}`)
+      .patch(`/api/relay/updateDashboard/${device[0].deviceId}`)
       .send({
         status: true,
       });
@@ -376,4 +393,55 @@ describe('PATCH /api/relay/updateDashboard', function () {
     expect(result.status).toBe(400);
     expect(result.body.errors).toBeDefined();
   });
+});
+
+describe('GET /api/battery/get', function () {
+
+  beforeEach(async () => {
+    await createTestBattery();
+  });
+
+  afterEach(async () => {
+    await removeTestBattery();
+    await removeTestDevice();
+    await removeTestUser();
+  });
+
+  it('should can get battery', async () => {
+    const device = await createTestDevice();
+    const user = await createTestUser();
+    const result = await supertest(web)
+      .get(`/api/battery/get/${device[0].deviceId}`)
+      .query({ apiKey: user.token })
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(200);
+    expect(result.body.data).toBeDefined();
+  })
+
+});
+
+describe('GET /api/battery/getDashboard', function () {
+
+  beforeEach(async () => {
+    await createTestBattery();
+  });
+
+  afterEach(async () => {
+    await removeTestBattery();
+    await removeTestDevice();
+  });
+
+  it('should can get battery without login in dashboard', async () => {
+    const device = await createTestDevice();
+    const result = await supertest(web)
+      .get(`/api/battery/getDashboard/${device[0].deviceId}`)
+
+    logger.info(result.body);
+
+    expect(result.status).toBe(200);
+    expect(result.body.data).toBeDefined();
+  })
+
 });

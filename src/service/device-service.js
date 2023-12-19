@@ -140,9 +140,12 @@ const remove = async (req) => {
     throw new ResponseError(404, "Device not found");
   }
 
-  const specBattery = await prismaClient.spec_battery.delete({
+  const specBattery = await prismaClient.spec_battery.findUnique({
     where: {
       deviceId: device.deviceId
+    },
+    select: {
+      deviceId: true
     }
   });
 
@@ -152,13 +155,19 @@ const remove = async (req) => {
     }
   });
 
+  await prismaClient.spec_battery.delete({
+    where: {
+      deviceId: device.deviceId
+    }
+  });
+
   await prismaClient.sensor.deleteMany({
     where: {
       deviceId: device.deviceId
     }
   });
 
-  return await prismaClient.device.delete({
+  await prismaClient.device.delete({
     where: {
       deviceId: device.deviceId
     }

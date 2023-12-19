@@ -36,14 +36,32 @@ export const getTestUser = async () => {
 
 export const removeTestDevice1 = async () => {
 
+  await prismaClient.spec_battery.deleteMany({
+    where: {
+      batteryBrand: 'test',
+    }
+  });
+
   await prismaClient.device.deleteMany({
     where: {
       name: 'testDevice'
     }
-  })
+  });
 }
 
 export const removeTestDevice = async () => {
+
+  await prismaClient.battery.deleteMany({
+    where: {
+      specBatteryId: 'testSpecBatteryId',
+    }
+  })
+
+  await prismaClient.spec_battery.deleteMany({
+    where: {
+      batteryBrand: 'test',
+    }
+  });
 
   await prismaClient.sensor.deleteMany({
     where: {
@@ -59,16 +77,30 @@ export const removeTestDevice = async () => {
 }
 
 export const createTestDevice = async () => {
-  return await prismaClient.device.create({
+  const device = await prismaClient.device.create({
     data: {
       deviceId: 'testId',
       name: 'testDevice',
       location: 'testLocation',
       latitude: 'testLatitude',
       longitude: 'testLongitude',
-      apiKey: 'testApiKey'
+      apiKey: 'testApiKey',
     }
   });
+
+  const specBattery = await prismaClient.spec_battery.create({
+    data: {
+      specBatteryId: 'testSpecBatteryId',
+      deviceId: device.deviceId,
+      batteryBrand: 'test',
+      voltageNominal: 1000,
+      voltageTop: 500,
+      voltageLow: 200,
+      batteryCapacity: 2000
+    }
+  });
+
+  return Promise.all([device, specBattery]);
 }
 
 export const createTestSensor = async (props) => {
@@ -92,6 +124,62 @@ export const removeTestSensor = async () => {
       deviceId: 'testId',
     }
   })
+}
+
+export const createTestBattery = async () => {
+  const device = await prismaClient.device.create({
+    data: {
+      deviceId: 'testId1',
+      name: 'testDevice',
+      location: 'testLocation',
+      latitude: 'testLatitude',
+      longitude: 'testLongitude',
+      apiKey: 'testApiKey',
+    }
+  });
+
+  const specBattery = await prismaClient.spec_battery.create({
+    data: {
+      specBatteryId: 'testSpecBatteryId1',
+      deviceId: device.deviceId,
+      batteryBrand: 'test',
+      voltageNominal: 1000,
+      voltageTop: 500,
+      voltageLow: 200,
+      batteryCapacity: 2000
+    }
+  });
+
+  const battery = await prismaClient.battery.create({
+    data: {
+      specBatteryId: specBattery.specBatteryId,
+      capacityNow: 1000,
+      persentageNow: 10
+    }
+  });
+
+  return battery;
+}
+
+export const removeTestBattery = async () => {
+
+  await prismaClient.battery.deleteMany({
+    where: {
+      specBatteryId: 'testSpecBatteryId1',
+    }
+  });
+
+  await prismaClient.spec_battery.deleteMany({
+    where: {
+      deviceId: 'testId1',
+    }
+  });
+
+  await prismaClient.device.deleteMany({
+    where: {
+      deviceId: 'testId1',
+    }
+  });
 }
 
 

@@ -25,21 +25,6 @@ const create = async (req1, req2) => {
     throw new ResponseError(404, "Device not found");
   }
 
-  const sensorTemp = await prismaClient.sensor.findMany({
-    where: {
-      deviceId: device.deviceId
-    },
-    take: 1,
-    orderBy: {
-      createdAt: 'desc'
-    }
-  });
-
-  console.log(sensorTemp.createdAt);
-  // if (sensorTemp.createdAt ) {
-
-  // }
-
   const specBattery = await prismaClient.spec_battery.findUnique({
     where: {
       deviceId: device.deviceId
@@ -50,7 +35,7 @@ const create = async (req1, req2) => {
 
   const capacityNow = specBattery.batteryCapacity * persentageNow / 100;
 
-  const resultBattery = await prismaClient.battery.create({
+  await prismaClient.battery.create({
     data: {
       specBatteryId: specBattery.specBatteryId,
       capacityNow: capacityNow,
@@ -58,7 +43,7 @@ const create = async (req1, req2) => {
     }
   });
 
-  const resultSensor = prismaClient.sensor.create({
+  const resultSensor = await prismaClient.sensor.create({
     data: {
       deviceId: device.deviceId,
       tegangan: sensor.tegangan,
@@ -70,7 +55,7 @@ const create = async (req1, req2) => {
     }
   });
 
-  return Promise.all([resultSensor, resultBattery]);
+  return resultSensor;
 }
 
 const get = async (req) => {
