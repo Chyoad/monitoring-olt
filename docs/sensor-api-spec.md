@@ -39,7 +39,7 @@
 
 + ### Get Sensor API
 
-  * #### GET : https:////localhost:3000/api/sensor/get/:deviceId?apiKey=
+  * #### GET : https://localhost:3000/api/sensor/get/:deviceId?apiKey=
 
     - Request params get sensor
       ```
@@ -111,7 +111,7 @@
 
 + ### Get Sensor API (Dashboard)
 
-  * #### GET : https:////localhost:3000/api/sensor/getDashboard/:deviceId?apiKey=
+  * #### GET : https://localhost:3000/api/sensor/getDashboard/:deviceId?apiKey=
 
     - Request params get sensor
       ```
