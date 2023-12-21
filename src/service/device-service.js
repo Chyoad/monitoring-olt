@@ -175,7 +175,14 @@ const remove = async (req) => {
 }
 
 const all = async (req) => {
-  const device = await prismaClient.device.findMany();
+  const device = await prismaClient.device.findMany({
+    include: {
+      spec_battery: true
+    },
+    orderBy: {
+      createdAt: 'desc'
+    }
+  });
 
   if (!device) {
     throw new ResponseError(404, "Device not found");
