@@ -101,30 +101,30 @@
     - Response body get device
       ```
       {
-        "data": [
-          {
-            "deviceId": "DC08B8-E2C132-527E84",
-            "name": "device_1",
-            "location": "location_1",
-            "latitude": "-7.823833586627168",
-            "longitude": "110.3644550417918",
-            "status": true,
-            "apiKey": "5XL5T8-CV5Xdr-0g6qqx-30j4VF",
-            "createdAt": "2023-11-02T07:12:31.517Z",
-            "updatedAt": "2023-11-02T07:12:31.517Z"
-          },
-          {
-            "deviceId": "F260AA-FFA6F8-D048F7",
-            "name": "device_2",
-            "location": "location_2",
-            "latitude": "-7.823833586627168",
-            "longitude": "110.3644550417918",
-            "status": true,
-            "apiKey": "5XL5T8-CV5Xdr-0g6qqx-30j4VF",
-            "createdAt": "2023-11-06T08:47:45.379Z",
-            "updatedAt": "2023-11-06T08:47:45.379Z"
-          }
-        ]
+          "data": [
+              {
+                  "deviceId": "B78A43-4706AD-4CB875",
+                  "name": "test_device",
+                  "location": "test_location",
+                  "latitude": "-7.823833586627168",
+                  "longitude": "110.3644550417918",
+                  "status": true,
+                  "apiKey": "omYrmQ-57JYY0-mhB7gK-JwwSev",
+                  "createdAt": "2023-12-19T17:36:26.683Z",
+                  "updatedAt": "2023-12-19T17:50:33.914Z",
+                  "spec_battery": {
+                      "specBatteryId": "ef7dbb66-e6a8-4715-a645-a7a3ef9fedf7",
+                      "deviceId": "B78A43-4706AD-4CB875",
+                      "batteryBrand": "abc",
+                      "voltageNominal": 10111,
+                      "voltageTop": 500,
+                      "voltageLow": 200,
+                      "batteryCapacity": 2000,
+                      "createdAt": "2023-12-19T17:36:26.686Z",
+                      "updatedAt": "2023-12-19T17:42:10.262Z"
+                  }
+              }
+          ]
       }
       ```
 
